@@ -1,5 +1,7 @@
 package com.whiteclark.aps.service;
 
+import org.apache.log4j.Logger;
+
 import com.whiteclark.aps.Car;
 import com.whiteclark.aps.Grid;
 import com.whiteclark.aps.ParkingGrid;
@@ -11,6 +13,7 @@ public class AutomatedParkingHandler {
 	/** Error message to be generated if there is any error */
 	private static final String ERR_MSG = "Please enter command as [row,slot:list of commands]. Example: '0,0:LLFFRR'.";
 	private static final String INVALID_LOCATION_ERR_MSG = ERR_MSG +" Invalid grid to start.";
+	private final Logger logger = Logger.getLogger(AutomatedParkingHandler.class);
 
 	/**
 	 * Entry point for the string containing location & sequence of command
@@ -18,12 +21,16 @@ public class AutomatedParkingHandler {
 	 * @return
 	 */
 	public String execute(String cmd) {
+		logger.info("execute");
+
 		if(InputValidator.validate(cmd) != Status.SUCCESS) {
+			logger.debug(ERR_MSG);
 			return ERR_MSG;
 		}
 		String [] inputDetails = cmd.split(":");
 		String [] startLocation = inputDetails[0].split(",");
 		if(setStartLocation(startLocation) != Status.SUCCESS) {
+			logger.debug(INVALID_LOCATION_ERR_MSG);
 			return INVALID_LOCATION_ERR_MSG;
 		}
 		String movementInstructions = inputDetails[1];
@@ -43,7 +50,7 @@ public class AutomatedParkingHandler {
 	 * words send signal to car at grid specified as X,Y
 	 */
 	private Status setStartLocation(String [] startLocation) {
-		//String [] gridLoc = startLocation.split(",");
+		logger.debug("setStartLocation");
 		ParkingGrid pGrid = ParkingGrid.getParkingGrid();
 		if(Integer.parseInt(startLocation[0]) >0 && Integer.parseInt(startLocation[1]) > 0) {
 			Grid grid = new Grid(Integer.parseInt(startLocation[0]),Integer.parseInt(startLocation[1]));
