@@ -16,3 +16,12 @@ Test class - AutomatedParkingHandlerTest.java
 3. Scenario 3: "5,5:FLFLFFRFFF" - AutomatedParkingHandlerTest.testScenario3
 
 Note:- Note that AutomatedParkingHandlerTest.java also contains unit test for AutomatedParkingHandler class
+
+# How to pass parameters from mvn command line
+Commands:
+1. mvn clean install -D<property_name>=<property_value> OR
+2. mvn clean test -D<property_name>=<property_value>
+
+Example:
+1. mvn clean install -DserviceUrl=https://localhost:9090 -DdbConn=jdbc.aws1919:9090.au OR
+2. mvn clean test -DserviceUrl=https://localhost:9090 -DdbConn=jdbc.aws1919:9090.au
